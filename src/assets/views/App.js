@@ -17,7 +17,8 @@ export default class App extends Backbone.View {
     }
 
     render(){
-        this.$el.html(`<div class="container">${new AlertElement().el}</div>`);
+        this.$el.html(appTemplate());
+        this.$('.container').append(new AlertElement().el);
         return this;
     }
 }
