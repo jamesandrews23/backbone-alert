@@ -1,4 +1,5 @@
 import Backbone from 'backbone';
+import $ from 'jquery';
 const logTemplate = require("../templates/log.handlebars");
 
 export default class AlertElement extends Backbone.View {
@@ -8,14 +9,16 @@ export default class AlertElement extends Backbone.View {
 
     attributes(){
         return {
-            class:"alert alert-secondary alert-dismissible fade show",
-            role:"alert"
+            "class":"alert alert-custom alert-secondary alert-dismissible fade show",
+            "role":"alert",
+            "data-toggle":"modal",
+            "data-target": "#staticBackdrop"
         }
     }
 
     events(){
         return {
-
+            "click" : "handleClick"
         }
     }
 
@@ -26,5 +29,9 @@ export default class AlertElement extends Backbone.View {
     render(){
         this.$el.html(logTemplate());
         return this;
+    }
+
+    handleClick(e){
+        $('#alertModal').modal('show');
     }
 }

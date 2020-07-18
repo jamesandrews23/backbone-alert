@@ -6,13 +6,12 @@ import AlertElement from './AlertElement';
 import Navbar from './Navbar';
 import _ from 'underscore';
 
-const appTemplate = require("../templates/app.handlebars");
+const alertModal = require("../templates/modal.handlebars");
 
 export default class App extends Backbone.View {
     constructor(){
         super();
     }
-
 
     initialize(){
         _.bindAll(this, "addRecord");
@@ -25,6 +24,7 @@ export default class App extends Backbone.View {
     render(){
         this.$el.append(this.navBar.el);
         this.$el.append('<div class="container"></div>');
+        this.$el.append(alertModal());
         return this;
     }
 
