@@ -3,6 +3,7 @@
  */
 import Backbone from 'backbone';
 import _ from 'underscore';
+import $ from 'jquery';
 const navBarTemplate = require("../templates/navbar.handlebars");
 
 export default class Navbar extends Backbone.View {
@@ -18,6 +19,7 @@ export default class Navbar extends Backbone.View {
 
     initialize(){
         _.bindAll(this, "handleAddRecord");
+        $.extend(this, Backbone.Events);
         this.render();
     }
 
@@ -27,6 +29,6 @@ export default class Navbar extends Backbone.View {
     }
 
     handleAddRecord(){
-        console.log("clicked");
+        this.trigger("addRecord");
     }
 }

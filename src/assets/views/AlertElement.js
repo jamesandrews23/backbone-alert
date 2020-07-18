@@ -1,4 +1,5 @@
 import Backbone from 'backbone';
+const logTemplate = require("../templates/log.handlebars");
 
 export default class AlertElement extends Backbone.View {
     constructor(){
@@ -7,7 +8,8 @@ export default class AlertElement extends Backbone.View {
 
     attributes(){
         return {
-            "class": "row"
+            class:"alert alert-secondary alert-dismissible fade show",
+            role:"alert"
         }
     }
 
@@ -22,7 +24,7 @@ export default class AlertElement extends Backbone.View {
     }
 
     render(){
-        this.$el.html("Alert Element");
+        this.$el.html(logTemplate());
         return this;
     }
 }
