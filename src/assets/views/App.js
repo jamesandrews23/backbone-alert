@@ -3,6 +3,7 @@
  */
 import Backbone from 'backbone';
 import AlertElement from './AlertElement';
+import Navbar from './Navbar';
 
 const appTemplate = require("../templates/app.handlebars");
 
@@ -17,8 +18,12 @@ export default class App extends Backbone.View {
     }
 
     render(){
-        this.$el.html(appTemplate());
-        this.$('.container').append(new AlertElement().el);
+        let navBar = new Navbar().el;
+        let alert = new AlertElement().el;
+
+        this.$el.append(navBar);
+        this.$el.append('<div class="container"></div>');
+        this.$('.container').append(alert);
         return this;
     }
 }
