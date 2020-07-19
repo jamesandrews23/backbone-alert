@@ -1,10 +1,13 @@
 import Backbone from 'backbone';
 import $ from 'jquery';
+import alertModel from '../models/AlertModel';
+import Modal from './Modal';
 const logTemplate = require("../templates/log.handlebars");
 
 export default class AlertElement extends Backbone.View {
     constructor(){
         super();
+        this.model = new alertModel();
     }
 
     attributes(){
@@ -32,6 +35,6 @@ export default class AlertElement extends Backbone.View {
     }
 
     handleClick(e){
-        $('#alertModal').modal('show');
+        Modal.showModal();
     }
 }
