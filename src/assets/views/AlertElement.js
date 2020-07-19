@@ -35,7 +35,7 @@ export default class AlertElement extends Backbone.View {
     }
 
     handleClick(e){
-        if(e.target.parentNode && e.target.parentNode.className === "close") return;
+        if(e.target.parentNode && e.target.parentNode.className === "close" || e.target.className === "close") return;
         Modal.showModal();
     }
 }
