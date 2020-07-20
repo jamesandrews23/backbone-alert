@@ -4,10 +4,6 @@ import Modal from './Modal';
 const logTemplate = require("../templates/log.handlebars");
 
 export default class AlertElement extends Backbone.View {
-    constructor(){
-        super();
-    }
-
     attributes(){
         return {
             "class":"alert alert-custom alert-secondary alert-dismissible fade show",
@@ -23,8 +19,8 @@ export default class AlertElement extends Backbone.View {
         }
     }
 
-    preinitialize(){
-        this.model = new AlertModel({category: "viewCategory", content: "viewContent", title: "viewTitle"});
+    preinitialize({model}){
+        this.model = model || new AlertModel({category: "viewCategory", content: "viewContent", title: "viewTitle"});
     }
 
     initialize(){
