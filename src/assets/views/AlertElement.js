@@ -1,13 +1,11 @@
 import Backbone from 'backbone';
-import $ from 'jquery';
-import alertModel from '../models/AlertModel';
+import AlertModel from '../models/AlertModel';
 import Modal from './Modal';
 const logTemplate = require("../templates/log.handlebars");
 
 export default class AlertElement extends Backbone.View {
     constructor(){
         super();
-        this.model = new alertModel();
     }
 
     attributes(){
@@ -25,17 +23,24 @@ export default class AlertElement extends Backbone.View {
         }
     }
 
+    preinitialize(){
+        this.model = new AlertModel({category: "viewCategory", content: "viewContent", title: "viewTitle"});
+    }
+
     initialize(){
+        if(this.model){
+            this.listenTo(this.model, "change", this.render);
+        }
         this.render();
     }
 
     render(){
-        this.$el.html(logTemplate());
+        this.$el.html(logTemplate(this.model.attributes));
         return this;
     }
 
     handleClick(e){
         if(e.target.parentNode && e.target.parentNode.className === "close" || e.target.className === "close") return;
-        Modal.showModal();
+        Modal.showModal(this.model);
     }
 }

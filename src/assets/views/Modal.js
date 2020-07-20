@@ -1,11 +1,18 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
 import 'bootstrap';
+import AlertModel from '../models/AlertModel'
+
 const modalTemplate = require('../templates/modal.handlebars');
+
 
 class Modal extends Backbone.View {
     constructor(){
         super();
+    }
+
+    preinitialize(){
+        this.model = new AlertModel();
     }
 
     attributes(){
@@ -27,12 +34,14 @@ class Modal extends Backbone.View {
     }
 
     render(){
-        this.$el.html(modalTemplate());
+        this.$el.html(modalTemplate(this.model.attributes));
         this.$el.modal({show: false});
         return this;
     }
 
-    showModal(){
+    showModal(model){
+        this.model = model;
+        this.render();
         this.$el.modal("show");
     }
 }
