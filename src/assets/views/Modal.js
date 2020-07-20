@@ -2,6 +2,7 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 import 'bootstrap';
 import AlertModel from '../models/AlertModel'
+import 'bootstrap-select';
 
 const modalTemplate = require('../templates/modal.handlebars');
 
@@ -13,6 +14,12 @@ class Modal extends Backbone.View {
 
     preinitialize(){
         this.model = new AlertModel();
+    }
+
+    events(){
+        return {
+            "click #save" : "handleSubmitForm"
+        }
     }
 
     attributes(){
@@ -29,7 +36,7 @@ class Modal extends Backbone.View {
     }
 
     initialize(){
-        _.bindAll(this, "showModal");
+        _.bindAll(this, "showModal", "handleSubmitForm");
         this.render();
     }
 
@@ -43,6 +50,11 @@ class Modal extends Backbone.View {
         this.model = model;
         this.render();
         this.$el.modal("show");
+    }
+
+    handleSubmitForm(){
+        this.model.set({content: this.$('#logText').val(), title: this.$('#category').val(), category: this.$('#category').val()});
+        this.$el.modal("hide");
     }
 }
 
