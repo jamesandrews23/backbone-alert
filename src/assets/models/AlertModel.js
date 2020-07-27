@@ -9,7 +9,7 @@ const AlertModel = Backbone.Model.extend({
     title: "default title",
 
     initialize: function(){
-
+        // this.listenTo(this, "change", this.save);
     }
 });
 

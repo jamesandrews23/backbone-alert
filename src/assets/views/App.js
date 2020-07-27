@@ -2,7 +2,9 @@
  * Created by James on 7/16/2020.
  */
 import Backbone from 'backbone';
+import '../util/BackboneSync';
 import AlertElement from './AlertElement';
+import AlertModel from '../models/AlertModel';
 import Navbar from './Navbar';
 import _ from 'underscore';
 import Modal from './Modal';
@@ -22,9 +24,10 @@ export default class App extends Backbone.View {
     }
 
     initialize(){
-        _.bindAll(this, "addRecord");
+        _.bindAll(this, "addRecord", "removeAllRecords");
         this.setElement("#root");
         this.listenTo(this.navBar, "addRecord", this.addRecord);
+        this.listenTo(this.navBar, "removeAllRecords", this.removeAllRecords);
         this.render();
     }
 
@@ -44,9 +47,17 @@ export default class App extends Backbone.View {
     }
 
     addRecord(){
-        let alert = new AlertElement();
-        this.collection.add(alert.model);
-        this.collection.sync();
+        let addedAlert = new AlertModel({content: "added"});
+        addedAlert.save();
+        this.collection.add(addedAlert);
+        let alert = new AlertElement({model: addedAlert});
+        this.collection.fetch(); //update the collection with the newly added model
         this.$('.container').append(alert.el);
+    }
+
+    removeAllRecords(){
+        this.collection.each((model) => {
+            model.delete();
+        });
     }
 }

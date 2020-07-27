@@ -13,7 +13,8 @@ export default class Navbar extends Backbone.View {
 
     events(){
         return {
-            "click #addRecord":"handleAddRecord"
+            "click #addRecord":"handleAddRecord",
+            "click #removeAllRecords":"handleRemoveAllRecords"
         }
     }
 
@@ -30,5 +31,9 @@ export default class Navbar extends Backbone.View {
 
     handleAddRecord(){
         this.trigger("addRecord");
+    }
+
+    handleRemoveAllRecords(){
+        this.trigger("removeAllRecords");
     }
 }
