@@ -5,7 +5,7 @@ import _ from 'underscore';
 const logTemplate = require("../templates/log.handlebars");
 
 let AlertElement = Backbone.View.extend({
-    model: new AlertModel,
+    model: AlertModel,
 
     attributes(){
         return {
@@ -18,14 +18,15 @@ let AlertElement = Backbone.View.extend({
 
     events(){
         return {
-            "click" : "handleClick"
+            "click" : "handleClick",
+            "click #close" : "removeAlertView"
         }
     },
 
     initialize(){
-        _.bindAll(this, "removeAlertView");
+        _.bindAll(this, "handleModelDestroy", "removeAlertView");
         this.listenTo(this.model, "change", this.render);
-        this.listenTo(this.model, "destroy", this.removeAlertView);
+        this.listenTo(this.model, "destroy", this.handleModelDestroy);
         this.render();
     },
 
@@ -40,8 +41,12 @@ let AlertElement = Backbone.View.extend({
         Modal.showModal(this.model);
     },
 
-    removeAlertView(){
+    handleModelDestroy(){
         this.remove();
+    },
+
+    removeAlertView(){
+        this.model.destroy();
     }
 });
 
