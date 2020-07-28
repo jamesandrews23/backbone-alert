@@ -28,13 +28,16 @@ export default class App extends Backbone.View {
         this.setElement("#root");
         this.listenTo(this.navBar, "addRecord", this.addRecord);
         this.listenTo(this.navBar, "removeAllRecords", this.removeAllRecords);
+        this.listenTo(this.collection, "reset", this.render);
+        this.$el.append(this.navBar.el);
+        this.$el.append('<div class="container"></div>');
+        this.$el.append(Modal.el);
+
         this.render();
     }
 
     render(){
-        this.$el.append(this.navBar.el);
-        this.$el.append('<div class="container"></div>');
-
+        this.$('.container').html('');
         if(this.collection.size() > 0){
             let views = this.collection.map(function(model){ return new AlertElement({model: model}) }) || [];
             for(var i=0; i < views.length; i++){
@@ -42,7 +45,6 @@ export default class App extends Backbone.View {
             }
         }
 
-        this.$el.append(Modal.el);
         return this;
     }
 
@@ -56,8 +58,6 @@ export default class App extends Backbone.View {
     }
 
     removeAllRecords(){
-        this.collection.each((model) => {
-            model.delete();
-        });
+        this.collection.sync("delete", this.collection);
     }
 }

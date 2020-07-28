@@ -70,16 +70,20 @@ const updateRecord = (model, options) => {
 
 };
 
-const deleteRecord = (model, options) => {
-    if(model instanceof Backbone.Model){
-        let alerts = retrieveAlerts();
+const deleteRecord = (element, options) => {
+    let alerts = retrieveAlerts();
+    if(element instanceof Backbone.Model){
         if(alerts.length > 0){
-
+            let updatedCollection = _.filter(alerts, (aModel) => {
+                return aModel.id !== element.get("id");
+            });
+            persistAlertCollection(updatedCollection);
         }
-    } else if (model instanceof Backbone.Collection){
+    } else if (element instanceof Backbone.Collection) {
+        element.reset();
         localStorage.removeItem(ALERT_ID);
-        model.reset();
     }
+
 };
 
 Backbone.sync = (method, model, options) => {
@@ -98,10 +102,10 @@ Backbone.sync = (method, model, options) => {
                 deleteRecord(model, options);
         }
 
-        if(options.success && _.isFunction(options.success))
+        if(options && options.success && _.isFunction(options.success))
             options.success.apply(model, options);
     } catch(e){
-        if(options.error && _.isFunction(options.error))
+        if(options && options.error && _.isFunction(options.error))
             options.error.apply(model, options);
     }
 };
