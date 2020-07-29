@@ -49,7 +49,7 @@ export default class App extends Backbone.View {
     }
 
     addRecord(){
-        let addedAlert = new AlertModel({content: "added"});
+        let addedAlert = new AlertModel();
         addedAlert.save();
         this.collection.add(addedAlert);
         let alert = new AlertElement({model: addedAlert});

@@ -4,12 +4,11 @@
 import Backbone from 'backbone';
 
 const AlertModel = Backbone.Model.extend({
-    category:"default category",
-    content: "default content",
-    title: "default title",
-
-    initialize: function(){
-        // this.listenTo(this, "change", this.save);
+    defaults: {
+        category:"default category",
+        content: "Click to begin",
+        title: "Alert",
+        icon: "fa-bell"
     }
 });
 
