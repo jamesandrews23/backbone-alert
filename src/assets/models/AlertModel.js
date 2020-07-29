@@ -15,28 +15,32 @@ const CreateCategory = ({category, name, value, selected, icon}) => ({
 
 const AlertModel = Backbone.Model.extend({
     defaults: {
-        category:"default category",
+        category:"alert",
         content: "Click to begin",
         title: "Alert",
         icon: "fa-bell",
+        type: "secondary",
         categories: {
             alert: {
                 name: "Alert",
                 value: "alert",
                 selected: false,
-                icon: "fa-bell"
+                icon: "fa-bell",
+                type: "secondary"
             },
             health: {
                 name: "Health",
                 value: "health",
                 selected: false,
-                icon: "fa-walking"
+                icon: "fa-walking",
+                type: "info"
             },
             journal: {
                 name: "Journal",
                 value: "journal",
                 selected: false,
-                icon: "fa-book"
+                icon: "fa-book",
+                type: "primary"
             }
         }
     },

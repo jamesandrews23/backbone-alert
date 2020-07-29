@@ -25,12 +25,12 @@ class Modal extends Backbone.View {
 
     attributes(){
         return {
-            class: "modal fade",
-            id:"alertModal",
+            "class": "modal fade",
+            "id":"alertModal",
             "data-backdrop": "static",
             "data-keyboard": false,
-            tabindex:"-1",
-            role:"dialog",
+            "tabindex":"-1",
+            "role":"dialog",
             "aria-labelledby":"staticBackdropLabel",
             "aria-hidden":"true"
         }
@@ -65,12 +65,13 @@ class Modal extends Backbone.View {
         _.each(options, (category) => {
             category.selected = false;
         });
-        let optionSelected = options[value];
-        optionSelected.selected = true;
+        let selectedCategory = options[value];
+        selectedCategory.selected = true;
         this.model.set({
             categories: options,
-            title: optionSelected.name,
-            icon: optionSelected.icon
+            title: selectedCategory.name,
+            icon: selectedCategory.icon,
+            type: selectedCategory.type
         });
         this.render();
     }

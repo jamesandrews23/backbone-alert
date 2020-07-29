@@ -7,15 +7,6 @@ const logTemplate = require("../templates/log.handlebars");
 let AlertElement = Backbone.View.extend({
     model: AlertModel,
 
-    attributes(){
-        return {
-            "class":"alert alert-custom alert-secondary alert-dismissible fade show",
-            "role":"alert",
-            "data-toggle":"modal",
-            "data-target": "#staticBackdrop"
-        }
-    },
-
     events(){
         return {
             "click" : "handleClick",
