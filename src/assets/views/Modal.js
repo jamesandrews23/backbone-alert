@@ -18,7 +18,8 @@ class Modal extends Backbone.View {
 
     events(){
         return {
-            "click #save" : "handleSubmitForm"
+            "click #save" : "handleSubmitForm",
+            "change #category" : "handleCategoryChange"
         }
     }
 
@@ -36,7 +37,7 @@ class Modal extends Backbone.View {
     }
 
     initialize(){
-        _.bindAll(this, "showModal", "handleSubmitForm");
+        _.bindAll(this, "showModal", "handleSubmitForm", "handleCategoryChange");
         this.render();
     }
 
@@ -56,6 +57,22 @@ class Modal extends Backbone.View {
         this.model.set({content: this.$('#logText').val(), title: this.$('#category').val(), category: this.$('#category').val()});
         this.model.save();
         this.$el.modal("hide");
+    }
+
+    handleCategoryChange(e){
+        let value = e.currentTarget.value;
+        let options = this.model.get("categories");
+        _.each(options, (category) => {
+            category.selected = false;
+        });
+        let optionSelected = options[value];
+        optionSelected.selected = true;
+        this.model.set({
+            categories: options,
+            title: optionSelected.name,
+            icon: optionSelected.icon
+        });
+        this.render();
     }
 }
 

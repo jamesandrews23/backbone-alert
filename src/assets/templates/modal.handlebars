@@ -10,9 +10,9 @@
             <form>
                 <div class="form-group">
                     <select id="category" class="form-control">
-                        <option value="alert">Alert</option>
-                        <option value="journal">Journal</option>
-                        <option value="health">Health and Fitness</option>
+                        {{#each categories}}
+                            <option value="{{this.value}}" {{#if this.selected}}selected="selected"{{/if}}>{{this.name}}</option>
+                        {{/each}}
                     </select>
                 </div>
                 <div class="form-group">
