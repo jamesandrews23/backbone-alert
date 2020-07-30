@@ -54,7 +54,7 @@ class Modal extends Backbone.View {
     }
 
     handleSubmitForm(){
-        this.model.set({content: this.$('#logText').val(), title: this.$('#category').val(), category: this.$('#category').val()});
+        this.model.set({content: this.$('#logText').val(), title: this.$('#title').html(), category: this.$('#category').val()});
         this.model.save();
         this.$el.modal("hide");
     }
