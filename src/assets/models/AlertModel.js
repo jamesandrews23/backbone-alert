@@ -4,14 +4,15 @@
 import Backbone from 'backbone';
 
 //category object factory
-const CreateCategory = ({category, name, value, selected, icon}) => ({
-    [category]: {
-        name,
-        value,
-        selected,
-        icon
+function createCategory(name, value, selected, icon, type){
+    return {
+        name: name,
+        value: value,
+        selected: selected,
+        icon: icon,
+        type: type
     }
-});
+}
 
 const AlertModel = Backbone.Model.extend({
     defaults: {
@@ -21,27 +22,9 @@ const AlertModel = Backbone.Model.extend({
         icon: "fa-bell",
         type: "secondary",
         categories: {
-            alert: {
-                name: "Alert",
-                value: "alert",
-                selected: false,
-                icon: "fa-bell",
-                type: "secondary"
-            },
-            health: {
-                name: "Health",
-                value: "health",
-                selected: false,
-                icon: "fa-walking",
-                type: "info"
-            },
-            journal: {
-                name: "Journal",
-                value: "journal",
-                selected: false,
-                icon: "fa-book",
-                type: "primary"
-            }
+            alert: createCategory("Alert", "alert", false, "fa-bell", "danger"),
+            health: createCategory("Health", "health", false, "fa-walking", "info"),
+            journal: createCategory("Journal", "journal", false, "fa-book", "primary")
         }
     },
 
