@@ -21,6 +21,7 @@ const AlertModel = Backbone.Model.extend({
         title: "Alert",
         icon: "fa-bell",
         type: "secondary",
+        date: (new Date()).toDateString(),
         categories: {
             alert: createCategory("Alert", "alert", false, "fa-bell", "danger"),
             health: createCategory("Health", "health", false, "fa-walking", "info"),
