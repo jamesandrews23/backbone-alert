@@ -65,7 +65,7 @@ export default class App extends Backbone.View {
             let searchResult = this.collection.filter((model) => {
                 let content = model.get("content");
                 if(!content) return false;
-                return content.match(searchValue) !== null;
+                return content.match(new RegExp(searchValue, 'gi')) !== null;
             });
 
             if(searchResult.length > 0)
