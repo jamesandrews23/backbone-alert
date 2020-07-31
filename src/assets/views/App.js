@@ -9,6 +9,7 @@ import Navbar from './Navbar';
 import _ from 'underscore';
 import Modal from './Modal';
 import AlertSystemCollection from '../collections/AlertSystemCollection';
+import {retrieveAlerts} from '../util/BackboneSync';
 
 const alertModal = require("../templates/modal.handlebars");
 
@@ -24,11 +25,13 @@ export default class App extends Backbone.View {
     }
 
     initialize(){
-        _.bindAll(this, "addRecord", "removeAllRecords", "search");
+        _.bindAll(this, "addRecord", "removeAllRecords", "search", "filterRecords", "filterOff");
         this.setElement("#root");
         this.listenTo(this.navBar, "addRecord", this.addRecord);
         this.listenTo(this.navBar, "removeAllRecords", this.removeAllRecords);
         this.listenTo(this.navBar, "search", this.search);
+        this.listenTo(this.navBar, "filter", this.filterRecords);
+        this.listenTo(this.navBar, "filter:off", this.filterOff);
         this.listenTo(this.collection, "reset add remove change", this.render);
         this.$el.append(this.navBar.el);
         this.$el.append('<div class="container"></div>');
@@ -53,7 +56,6 @@ export default class App extends Backbone.View {
         let addedAlert = new AlertModel();
         addedAlert.save();
         this.collection.add(addedAlert);
-        //this.collection.fetch(); //update the collection with the newly added model
     }
 
     removeAllRecords(){
@@ -73,5 +75,17 @@ export default class App extends Backbone.View {
         } else {
             this.collection.fetch();
         }
+    }
+
+    filterRecords(filteredBy){
+        let storedRecords = retrieveAlerts();
+        let filteredCollection = _.where(storedRecords, {category: filteredBy});
+        if(filteredCollection){
+            this.collection.reset(filteredCollection);
+        }
+    }
+
+    filterOff(){
+        this.collection.fetch();
     }
 }

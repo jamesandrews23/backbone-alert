@@ -4,6 +4,7 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
 import $ from 'jquery';
+import Filter from './Filter';
 const navBarTemplate = require("../templates/navbar.handlebars");
 
 export default class Navbar extends Backbone.View {
@@ -15,19 +16,22 @@ export default class Navbar extends Backbone.View {
         return {
             "click #addRecord":"handleAddRecord",
             "click #removeAllRecords":"handleRemoveAllRecords",
-            "click #search" : "handleSearch",
             "input #searchValue" : "runSearch"
         }
     }
 
     initialize(){
-        _.bindAll(this, "handleAddRecord", "handleSearch", "runSearch");
+        _.bindAll(this, "handleAddRecord", "runSearch");
         $.extend(this, Backbone.Events);
+        this.filter = new Filter();
+        this.listenTo(this.filter, "filter", this.handleFilterEvent);
+        this.listenTo(this.filter, "off", this.handleFilterOff);
         this.render();
     }
 
     render(){
         this.$el.html(navBarTemplate());
+        this.$('#filter').append(this.filter.el);
         return this;
     }
 
@@ -39,12 +43,15 @@ export default class Navbar extends Backbone.View {
         this.trigger("removeAllRecords");
     }
 
-    handleSearch(e){
-        e.preventDefault();
-        this.trigger("search", this.$('#searchValue').val());
-    }
-
     runSearch(e){
         this.trigger("search", e.target.value);
+    }
+
+    handleFilterEvent(value){
+        this.trigger("filter", value);
+    }
+
+    handleFilterOff(){
+        this.trigger("filter:off")
     }
 }

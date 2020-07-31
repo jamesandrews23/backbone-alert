@@ -4,7 +4,7 @@ import _ from 'underscore';
 
 const ALERT_ID = "alertElements";
 
-const retrieveAlerts = () => {
+export const retrieveAlerts = () => {
     try {
         return JSON.parse(localStorage.getItem(ALERT_ID)) || [];
     } catch(e){
