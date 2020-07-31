@@ -22,6 +22,7 @@ export default class App extends Backbone.View {
         this.navBar = new Navbar();
         this.collection = AlertSystemCollection;
         this.collection.fetch();
+        this.filteredCollection = [];
     }
 
     initialize(){
@@ -73,7 +74,11 @@ export default class App extends Backbone.View {
             if(searchResult.length > 0)
                 this.collection.reset(searchResult);
         } else {
-            this.collection.fetch();
+            if(this.filteredCollection.length > 0){
+                this.collection.set(this.filteredCollection);
+            } else {
+                this.collection.fetch();
+            }
         }
     }
 
@@ -81,11 +86,13 @@ export default class App extends Backbone.View {
         let storedRecords = retrieveAlerts();
         let filteredCollection = _.where(storedRecords, {category: filteredBy});
         if(filteredCollection){
+            this.filteredCollection = filteredCollection;
             this.collection.reset(filteredCollection);
         }
     }
 
     filterOff(){
+        this.filteredCollection = [];
         this.collection.fetch();
     }
 }
