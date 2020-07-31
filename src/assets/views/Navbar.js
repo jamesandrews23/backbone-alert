@@ -14,12 +14,14 @@ export default class Navbar extends Backbone.View {
     events(){
         return {
             "click #addRecord":"handleAddRecord",
-            "click #removeAllRecords":"handleRemoveAllRecords"
+            "click #removeAllRecords":"handleRemoveAllRecords",
+            "click #search" : "handleSearch",
+            "input #searchValue" : "runSearch"
         }
     }
 
     initialize(){
-        _.bindAll(this, "handleAddRecord");
+        _.bindAll(this, "handleAddRecord", "handleSearch", "runSearch");
         $.extend(this, Backbone.Events);
         this.render();
     }
@@ -35,5 +37,14 @@ export default class Navbar extends Backbone.View {
 
     handleRemoveAllRecords(){
         this.trigger("removeAllRecords");
+    }
+
+    handleSearch(e){
+        e.preventDefault();
+        this.trigger("search", this.$('#searchValue').val());
+    }
+
+    runSearch(e){
+        this.trigger("search", e.target.value);
     }
 }

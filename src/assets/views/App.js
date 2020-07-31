@@ -24,11 +24,12 @@ export default class App extends Backbone.View {
     }
 
     initialize(){
-        _.bindAll(this, "addRecord", "removeAllRecords");
+        _.bindAll(this, "addRecord", "removeAllRecords", "search");
         this.setElement("#root");
         this.listenTo(this.navBar, "addRecord", this.addRecord);
         this.listenTo(this.navBar, "removeAllRecords", this.removeAllRecords);
-        this.listenTo(this.collection, "reset", this.render);
+        this.listenTo(this.navBar, "search", this.search);
+        this.listenTo(this.collection, "reset add remove change", this.render);
         this.$el.append(this.navBar.el);
         this.$el.append('<div class="container"></div>');
         this.$el.append(Modal.el);
@@ -52,12 +53,25 @@ export default class App extends Backbone.View {
         let addedAlert = new AlertModel();
         addedAlert.save();
         this.collection.add(addedAlert);
-        let alert = new AlertElement({model: addedAlert});
-        this.collection.fetch(); //update the collection with the newly added model
-        this.$('.container').append(alert.el);
+        //this.collection.fetch(); //update the collection with the newly added model
     }
 
     removeAllRecords(){
         this.collection.sync("delete", this.collection);
+    }
+
+    search(searchValue){
+        if(searchValue && searchValue.length > 3){
+            let searchResult = this.collection.filter((model) => {
+                let content = model.get("content");
+                if(!content) return false;
+                return content.match(searchValue) !== null;
+            });
+
+            if(searchResult.length > 0)
+                this.collection.reset(searchResult);
+        } else {
+            this.collection.fetch();
+        }
     }
 }
