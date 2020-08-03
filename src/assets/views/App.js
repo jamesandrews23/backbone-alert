@@ -42,13 +42,12 @@ export default class App extends Backbone.View {
     }
 
     render(){
-        this.$('.container').html('');
-        if(this.collection.size() > 0){
-            let views = this.collection.map(function(model){ return new AlertElement({model: model}) }) || [];
-            for(var i=0; i < views.length; i++){
-                this.$('.container').append(views[i].el);
-            }
+        let views = this.collection.map(function(model){ return new AlertElement({model: model}) }) || [];
+        let fragment = document.createDocumentFragment();
+        for(const view of views){
+            fragment.appendChild(view.el);
         }
+        this.$('.container').html(fragment);
 
         return this;
     }
